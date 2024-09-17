@@ -70,5 +70,5 @@ We're trying to grow this documentation as fast as we can. This website is based
 #### Running the project locally
 
 1. Clone the project.
-1. Run `docker-compose up`.
+1. Run `docker compose up`.
 1. In a browser, go to `http://localhost:4000`. The site should be running there.

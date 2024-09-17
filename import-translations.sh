@@ -8,6 +8,6 @@
 #
 # This command will generate the _translations/<LANG>.json files and the _content/<LANG>
 
-docker-compose run \
+docker compose run \
     --rm web \
     /bin/bash -c "(bundle check || bundle install --jobs=3) && ruby import_language.rb $1 $2"

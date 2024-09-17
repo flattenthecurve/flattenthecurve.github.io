@@ -7,13 +7,13 @@ on:
         - cron: '0 */6 * * *'
 jobs:
   import_resources:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Run resource import script
         run: ./_scripts/import_resources.py
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v2
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: Import new resources.
