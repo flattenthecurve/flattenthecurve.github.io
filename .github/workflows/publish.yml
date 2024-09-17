@@ -7,10 +7,10 @@ on:
 
 jobs:
   build_and_deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/cache@v1
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
         with:
           path: ~/cache/bundle
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
@@ -19,7 +19,7 @@ jobs:
       - name: Build Jekyll site
         run: |
           mv docker-compose.ci.yml docker-compose.override.yml
-          docker-compose run --rm web /bin/bash -c "(bundle check || bundle install --jobs=3) && JEKYLL_ENV=production bundle exec jekyll build"
+          docker compose run --rm web /bin/bash -c "(bundle check || bundle install --jobs=3) && JEKYLL_ENV=production bundle exec jekyll build"
       - name: Publish to gh-pages branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -27,17 +27,17 @@ jobs:
           GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
         run: ./_scripts/push-to-gh-pages.sh
       - name: Upload English content
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: english-content
           path: build/i18n-en.json
 
   publish_to_lokalise:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: build_and_deploy
     steps:
       - name: Download English content
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v4
         with:
           name: english-content
       - name: Push English content to Lokalise
